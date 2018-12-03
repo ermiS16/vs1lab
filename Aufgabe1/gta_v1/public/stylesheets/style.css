@@ -7,9 +7,24 @@ a {
   color: #00B7FF;
 }
 
-.flex-container{
-    display: flex;
+.flex-formular > *{
+#    flex: 1 100%;
 }
+
+.flex-formular{
+    display: flex;
+#    flex-flow: row wrap;
+}
+
+@screen all and(min.width : 600px){
+  .aside(flex:column;)
+}
+
+.flex-map{
+    display: flex;
+#    flex-flow: row wrap;
+}
+
 
 .flex-item{
     margin: .5em;
