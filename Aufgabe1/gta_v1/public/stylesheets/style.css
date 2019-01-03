@@ -8,24 +8,21 @@ a {
 }
 
 .flex-formular > *{
-#    flex: 1 100%;
+#   flex: 1 1 0%;
+}
+
+.flex-container{
+  display:  flex;
 }
 
 .flex-formular{
     display: flex;
-#    flex-flow: row wrap;
 }
 
-@screen all and(min.width : 600px){
-  .aside(flex:column;)
+.flex-map > *{
+#  flex: 1 1 0%;
 }
 
 .flex-map{
     display: flex;
-#    flex-flow: row wrap;
-}
-
-
-.flex-item{
-    margin: .5em;
 }
