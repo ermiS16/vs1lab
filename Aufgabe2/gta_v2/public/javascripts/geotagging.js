@@ -12,6 +12,7 @@ console.log("The script is going to start...");
 
 // Hier wird die verwendete API für Geolocations gewählt
 // Die folgende Deklaration ist ein 'Mockup', das immer funktioniert und eine fixe Position liefert.
+
 GEOLOCATIONAPI = {
     getCurrentPosition: function(onsuccess) {
         onsuccess({
@@ -28,6 +29,11 @@ GEOLOCATIONAPI = {
         });
     }
 };
+
+
+
+
+
 
 // Die echte API ist diese.
 // Falls es damit Probleme gibt, kommentieren Sie die Zeile aus.
@@ -120,7 +126,17 @@ var gtaLocator = (function GtaLocator(geoLocationApi) {
         readme: "Dieses Objekt enthält 'öffentliche' Teile des Moduls.",
 
         updateLocation: function() {
-            // TODO Hier Inhalt der Funktion "update" ergänzen
+          tryLocate();
+          var onsuccess = function(){
+              GEOLOCATIONAPI.latitude = $(document).getElementById("latitude").value;
+              GEOLOCATIONAPI.longitude = $(document).getElementById("longitude").value;
+          }
+
+          var onerror = function(){
+              alert("Error");
+          }
+
+
         }
 
     }; // ... Ende öffentlicher Teil
@@ -133,5 +149,5 @@ var gtaLocator = (function GtaLocator(geoLocationApi) {
  */
 $(document).ready(function() {
     alert("Please change the script 'geotagging.js'");
-    // TODO Hier den Aufruf für updateLocation einfügen
+    gtaLocator.updateLocation();
 });

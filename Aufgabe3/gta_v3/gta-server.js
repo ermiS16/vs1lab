@@ -30,12 +30,18 @@ app.set('view engine', 'ejs');
  */
 
 // TODO: CODE ERGÄNZEN
+app.use(express.static("/client"));
 
 /**
  * Konstruktor für GeoTag Objekte.
  * GeoTag Objekte sollen min. alle Felder des 'tag-form' Formulars aufnehmen.
  */
-
+var GeoTagObject = {
+    latitude: '0',
+    longitude: '0',
+    name: '0',
+    hashtag: '#'
+}
 // TODO: CODE ERGÄNZEN
 
 /**
@@ -48,6 +54,15 @@ app.set('view engine', 'ejs');
  */
 
 // TODO: CODE ERGÄNZEN
+var inMemory = {
+
+    var geoTag_Array = [];
+    var searchGeoTagRadius = function(){}
+    var searchGeoTagSearchterm = function(){}
+    var addGeoTag = function(){}
+    var removeGeoTag = function(){}
+
+}
 
 /**
  * Route mit Pfad '/' für HTTP 'GET' Requests.
@@ -78,7 +93,14 @@ app.get('/', function(req, res) {
  */
 
 // TODO: CODE ERGÄNZEN START
-
+/*
+app.post.method('/tagging', function(req, res) {
+    req.body('latitude', 'longitude', 'name', 'hashtag', 'submitNewEntry');
+    res.render('gta', {
+          GeoTagObject
+    });
+});
+*/
 /**
  * Route mit Pfad '/discovery' für HTTP 'POST' Requests.
  * (http://expressjs.com/de/4x/api.html#app.post.method)
