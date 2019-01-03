@@ -7,34 +7,6 @@ a {
   color: #00B7FF;
 }
 
-<<<<<<< HEAD
-.flex-formular > *{
-#   flex: 1 1 0%;
-}
-
-.flex-container{
-  display:  flex;
-}
-
-.flex-formular{
-    display: flex;
-}
-
-.flex-map > *{
-#  flex: 1 1 0%;
-}
-
-.flex-map{
-    display: flex;
-<<<<<<< HEAD
-=======
-#    flex-flow: row wrap;
-}
-
-
-.flex-item{
-    margin: .5em;
-=======
 * {
   box-sizing: border-box;
 }
@@ -118,6 +90,4 @@ header, footer{
 
 .tagmap {
   float:left
->>>>>>> 4daadd573ff9bf95be50b352cafec7a3bbe8de0f
->>>>>>> master
 }

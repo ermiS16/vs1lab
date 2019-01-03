@@ -9,7 +9,7 @@
  */
 
 var http = require('http');
-//var path = require('path');
+var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var express = require('express');
@@ -25,14 +25,6 @@ app.use(bodyParser.urlencoded({
 app.set('view engine', 'ejs');
 
 /**
- * Konfiguriere den Pfad für statische Dateien.
- * Teste das Ergebnis im Browser unter 'http://localhost:3000/'.
- */
-
-// TODO: CODE ERGÄNZEN
-app.use(express.static("/client"));
-
-/**
  * Konstruktor für GeoTag Objekte.
  * GeoTag Objekte sollen min. alle Felder des 'tag-form' Formulars aufnehmen.
  */
@@ -42,7 +34,14 @@ var GeoTagObject = {
     name: '0',
     hashtag: '#'
 }
+
+/**
+ * Konfiguriere den Pfad für statische Dateien.
+ * Teste das Ergebnis im Browser unter 'http://localhost:3000/'.
+ */
+
 // TODO: CODE ERGÄNZEN
+/app.use(express.static('/client'))
 
 /**
  * Modul für 'In-Memory'-Speicherung von GeoTags mit folgenden Komponenten:
@@ -54,16 +53,17 @@ var GeoTagObject = {
  */
 
 // TODO: CODE ERGÄNZEN
+    /*
 var inMemory = {
 
-    var geoTag_Array = [];
-    var searchGeoTagRadius = function(){}
-    var searchGeoTagSearchterm = function(){}
-    var addGeoTag = function(){}
-    var removeGeoTag = function(){}
+    var getoTag_Array = [];
+    var searchGeoTagRadius = function(){};
+    var searchGeoTagSearchterm = function(){};
+    var addGeoTag = function(){};
+    var removeGeoTag = function(){};
 
 }
-
+*/
 /**
  * Route mit Pfad '/' für HTTP 'GET' Requests.
  * (http://expressjs.com/de/4x/api.html#app.get.method)
