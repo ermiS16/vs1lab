@@ -1,6 +1,7 @@
 .<!DOCTYPE html>
 <html lang="en">
 
+
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,6 @@
 	</head>
 
 	<body>
-
 		<header>
 			<img src="./images/location.png" width="100"
 					alt="an image of a map and location">
@@ -20,13 +20,18 @@
 			</nav>
 		</header>
 
+<<<<<<< HEAD
 		<main>
 			<div class="flex-container">
 			<div class="flex-formular">
 			<section class="tagging" class="flex-item">
+=======
+		<main class="flex-container">
+			<section class="tagging">
+>>>>>>> 4daadd573ff9bf95be50b352cafec7a3bbe8de0f
 				<h2>Tagging</h2>
-
 				<!-- ############### Aufgabe1a Form1 Start -->
+<<<<<<< HEAD
 
 				<form id="tag-form" action="/tagging" method="post">
 					<fieldset>
@@ -45,12 +50,34 @@
 				</form>
 
 				<!-- ############### Aufgabe1a Form1 Ende -->
+=======
+>>>>>>> 4daadd573ff9bf95be50b352cafec7a3bbe8de0f
 
+				<form id="tag-form" action="/tagging" method="post">
+					<div class="tagging-forms">
+					<fieldset>
+						<legend>Enter new GeoTag</legend>
+						<legend>Latitude</legend>
+							<input type="text" label="Latitude" id="latitude" placeholder="Bsp.: 49.004719" pattern="([(N|)|(S|-)][0-9]{1,2}° [0-6]{1,2}' [0-6]{1,2},?[0-9]'')
+																																																			|[0-9]{1,2},[0-9]{1,15}" maxlength="20" required/>
+						<legend>Longitude</legend>
+							<input type="text" label="Longitude" id="longtitude" placeholder="Bsp.: 8.427174" maxlength="20" required/>
+						<legend>Name</legend>
+							<input type="text" label="Name" id="name" placeholder="Bsp.: Max Mustermann" pattern="[a-ZA-Z]{1,10}" maxlength="10" required/>
+						<legend>Hashtag</legend>
+							<input type="text" label="Hashtag" id="hashtag" placeholder="Bsp.: #SchlossGottesaue" pattern="#[a-zA-Z0-9]{1,10}" maxlength="100"/>
+								<button id="submitNewEntry">submit</button>
+					</fieldset>
+					</div>
+				</form>
+
+				<!-- ############### Aufgabe1a Form1 Ende -->
 			</section>
 			<section class="discovery" class="flex-item">
 				<h2>Discovery</h2>
 
 				<!-- ############### Aufgabe1a Form2 Start -->
+<<<<<<< HEAD
 				<form id="filter-form" action="/discovery" method="post"></form>
 				<fieldset>
 					<legend>Filter by Searchterm</legend>
@@ -78,7 +105,35 @@
 				</div>
 			</section>
 		</div>
+<<<<<<< HEAD
 	</div>
+=======
+=======
+				<form id="filter-form" action="/discovery" method="post">
+				<fieldset>
+					<legend>Filter by Searchterm</legend>
+						<input type="text" label="search" id="searchfield" placeholder="search term" size=30/>
+					<button id="ApplySearch">Apply</button>
+					<button id="RemoveSearch">Remove</button>
+				</fieldset>
+			</form>
+
+				<!-- ############### Aufgabe1a Form2 Ende -->
+
+					<div class="taglist">
+						<ul id="results">
+							<li>Castle (49.01379, 8.404435) #sight</li>
+							<li>IWI (49.01379, 8.390071) #edu</li>
+						</ul>
+					</div>
+					<div class="tagmap">
+						<img id="result-img" src="./images/mapview.jpg" alt="a map with locations"/>
+						<div class="caption">Result map</div>
+					</div>
+
+			</section>
+>>>>>>> 4daadd573ff9bf95be50b352cafec7a3bbe8de0f
+>>>>>>> master
 		</main>
 
 		<footer>

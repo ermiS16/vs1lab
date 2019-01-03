@@ -7,6 +7,7 @@ a {
   color: #00B7FF;
 }
 
+<<<<<<< HEAD
 .flex-formular > *{
 #   flex: 1 1 0%;
 }
@@ -25,4 +26,98 @@ a {
 
 .flex-map{
     display: flex;
+<<<<<<< HEAD
+=======
+#    flex-flow: row wrap;
+}
+
+
+.flex-item{
+    margin: .5em;
+=======
+* {
+  box-sizing: border-box;
+}
+
+header, footer{
+  padding: 10px;
+  background-color:#A28585;
+}
+
+#submitNewEntry {
+  display:block;
+  margin-top: 5px;
+  margin-right: 5px;
+  margin-top: 5px;
+}
+
+#latitude {
+  height: 25px;
+  margin-bottom: 5px;
+}
+
+#longtitude {
+  height: 25px;
+  margin-bottom: 5px;
+}
+
+#name {
+  height: 25px;
+  margin-bottom: 5px;
+}
+
+#hashtag {
+  height: 25px;
+  margin-bottom: 5px;
+}
+
+#searchfield{
+  height: 25px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+
+.flex-container{
+  display:flex;
+  flex-direction: column;
+}
+
+@media all and (min-width: 800px) {
+	.flex-container {
+		flex-direction: row;
+	}
+}
+
+.tagging {
+  float:left
+  margin-right: 5px;
+}
+
+.discovery{
+  float:left;
+}
+
+.caption{
+  text-align: right;
+}
+
+.taglist{
+  float:left;
+  margin-right: 10px;
+}
+
+#results li{
+  width: 90%;
+  margin-bottom: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 5px;
+  background-color: #9497F0;
+}
+
+.tagmap {
+  float:left
+>>>>>>> 4daadd573ff9bf95be50b352cafec7a3bbe8de0f
+>>>>>>> master
 }

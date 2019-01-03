@@ -310,3 +310,4 @@ $RECYCLE.BIN/
 
 
 # End of https://www.gitignore.io/api/node,web,linux,macos,windows,webstorm+all,eclipse
+/Aufgabe3/gta_v3/npm
