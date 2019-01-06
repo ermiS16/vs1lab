@@ -9,7 +9,7 @@
  */
 
 var http = require('http');
-//var path = require('path');
+var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var express = require('express');
@@ -25,6 +25,7 @@ app.use(bodyParser.urlencoded({
 app.set('view engine', 'ejs');
 
 /**
+<<<<<<< HEAD
  * Konfiguriere den Pfad für statische Dateien.
  * Teste das Ergebnis im Browser unter 'http://localhost:3000/'.
  */
@@ -52,8 +53,25 @@ function GeoTagObject(latitude, longitude, name, hashtag){
 
         }
 };
+=======
+ * Konstruktor für GeoTag Objekte.
+ * GeoTag Objekte sollen min. alle Felder des 'tag-form' Formulars aufnehmen.
+ */
+var GeoTagObject = {
+    latitude: '0',
+    longitude: '0',
+    name: '0',
+    hashtag: '#'
+}
+
+/**
+ * Konfiguriere den Pfad für statische Dateien.
+ * Teste das Ergebnis im Browser unter 'http://localhost:3000/'.
+ */
+>>>>>>> a7dd4597a8f6817da7edfdf956ee519772006469
 
 // TODO: CODE ERGÄNZEN
+/app.use(express.static('/client'))
 
 /**
  * Modul für 'In-Memory'-Speicherung von GeoTags mit folgenden Komponenten:
@@ -65,6 +83,7 @@ function GeoTagObject(latitude, longitude, name, hashtag){
  */
 
 // TODO: CODE ERGÄNZEN
+<<<<<<< HEAD
 
 var inMemory = (function() {
     var geoTag_Array = [];
@@ -85,6 +104,19 @@ var inMemory = (function() {
 });
 
 
+=======
+    /*
+var inMemory = {
+
+    var getoTag_Array = [];
+    var searchGeoTagRadius = function(){};
+    var searchGeoTagSearchterm = function(){};
+    var addGeoTag = function(){};
+    var removeGeoTag = function(){};
+
+}
+*/
+>>>>>>> a7dd4597a8f6817da7edfdf956ee519772006469
 /**
  * Route mit Pfad '/' für HTTP 'GET' Requests.
  * (http://expressjs.com/de/4x/api.html#app.get.method)
