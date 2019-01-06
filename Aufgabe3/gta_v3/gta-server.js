@@ -28,32 +28,39 @@ app.set('view engine', 'ejs');
  * Teste das Ergebnis im Browser unter 'http://localhost:3000/'.
  */
 
-// TODO: CODE ERGÄNZEN
-
 app.use(express.static(__dirname + "/public"));
 
 /**
  * Konstruktor für GeoTag Objekte.
  * GeoTag Objekte sollen min. alle Felder des 'tag-form' Formulars aufnehmen.
  */
-/*
-function GeoTagObject(latitude, longitude, name, hashtag){
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.name = name;
-        this.hashtag = hashtag;
 
-        this.getLatitude = function () { return this.latitude;};
-        this.getLongitude = function () { return this.longitude;};
-        this.getName = function () { return this.name;};
-        this.getHashtag = function () { return this.hashtag;};
+function GeoTagObject(latitude, longitude, name, hashtag) {
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.name = name;
+    this.hashtag = hashtag;
 
-        this.toString = function () { return "Latitude: "+ this.latitude +
+    this.getLatitude = function () {
+        return this.latitude;
+    };
+    this.getLongitude = function () {
+        return this.longitude;
+    };
+    this.getName = function () {
+        return this.name;
+    };
+    this.getHashtag = function () {
+        return this.hashtag;
+    };
+
+    this.toString = function () {
+        return "Latitude: " + this.latitude +
             ", Longitude: " + this.longitude + ", Name: " + this.name + ", Hashtag: " + this.hashtag;
 
-        }
+    }
 };
-*/
+
 /**
  * Modul für 'In-Memory'-Speicherung von GeoTags mit folgenden Komponenten:
  * - Array als Speicher für Geo Tags.
@@ -63,9 +70,6 @@ function GeoTagObject(latitude, longitude, name, hashtag){
  * - Funktion zum Löschen eines Geo Tags.
  */
 
-// TODO: CODE ERGÄNZEN
-
-/*
 var inMemory = (function() {
     var geoTag_Array = [];
     var newGeoTag;
@@ -83,7 +87,7 @@ var inMemory = (function() {
         removeGeoTag : function (geoTag) {geoTag_Array.pop(geoTag);}
     }
 });
-*/
+
 /**
  * Route mit Pfad '/' für HTTP 'GET' Requests.
  * (http://expressjs.com/de/4x/api.html#app.get.method)
@@ -112,15 +116,18 @@ app.get('/', function(req, res) {
  * Die Objekte liegen in einem Standard Radius um die Koordinate (lat, lon).
  */
 
-// TODO: CODE ERGÄNZEN START
-/*
 app.post('/tagging', function(req, res) {
-    req.body('latitude', 'longitude', 'name', 'hashtag', 'submitNewEntry');
-    res.render('gta', {
-          GeoTagObject
-    });
-});
+/*
+    req.body.latitude;
+    req.body.longitude;
+    req.body.hashtag;
+    req.body.name;
 */
+    var newGeoTagObject = new GeoTagObject(req.body.latitude, req.body.longitude, req.body.hashtag, req.body.name)
+    res.render('gta', {newGeoTagObject})
+
+});
+
 /**
  * Route mit Pfad '/discovery' für HTTP 'POST' Requests.
  * (http://expressjs.com/de/4x/api.html#app.post.method)
