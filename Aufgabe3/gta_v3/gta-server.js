@@ -20,23 +20,23 @@ app.use(logger('dev'));
 app.use(bodyParser.urlencoded({
     extended: false
 }));
-
 // Setze ejs als View Engine
 app.set('view engine', 'ejs');
 
 /**
-<<<<<<< HEAD
  * Konfiguriere den Pfad für statische Dateien.
  * Teste das Ergebnis im Browser unter 'http://localhost:3000/'.
  */
 
 // TODO: CODE ERGÄNZEN
-app.use(express.static('/public'));
+
+app.use(express.static(__dirname + "/public"));
 
 /**
  * Konstruktor für GeoTag Objekte.
  * GeoTag Objekte sollen min. alle Felder des 'tag-form' Formulars aufnehmen.
  */
+/*
 function GeoTagObject(latitude, longitude, name, hashtag){
         this.latitude = latitude;
         this.longitude = longitude;
@@ -53,26 +53,7 @@ function GeoTagObject(latitude, longitude, name, hashtag){
 
         }
 };
-=======
- * Konstruktor für GeoTag Objekte.
- * GeoTag Objekte sollen min. alle Felder des 'tag-form' Formulars aufnehmen.
- */
-var GeoTagObject = {
-    latitude: '0',
-    longitude: '0',
-    name: '0',
-    hashtag: '#'
-}
-
-/**
- * Konfiguriere den Pfad für statische Dateien.
- * Teste das Ergebnis im Browser unter 'http://localhost:3000/'.
- */
->>>>>>> a7dd4597a8f6817da7edfdf956ee519772006469
-
-// TODO: CODE ERGÄNZEN
-/app.use(express.static('/client'))
-
+*/
 /**
  * Modul für 'In-Memory'-Speicherung von GeoTags mit folgenden Komponenten:
  * - Array als Speicher für Geo Tags.
@@ -83,8 +64,8 @@ var GeoTagObject = {
  */
 
 // TODO: CODE ERGÄNZEN
-<<<<<<< HEAD
 
+/*
 var inMemory = (function() {
     var geoTag_Array = [];
     var newGeoTag;
@@ -102,21 +83,7 @@ var inMemory = (function() {
         removeGeoTag : function (geoTag) {geoTag_Array.pop(geoTag);}
     }
 });
-
-
-=======
-    /*
-var inMemory = {
-
-    var getoTag_Array = [];
-    var searchGeoTagRadius = function(){};
-    var searchGeoTagSearchterm = function(){};
-    var addGeoTag = function(){};
-    var removeGeoTag = function(){};
-
-}
 */
->>>>>>> a7dd4597a8f6817da7edfdf956ee519772006469
 /**
  * Route mit Pfad '/' für HTTP 'GET' Requests.
  * (http://expressjs.com/de/4x/api.html#app.get.method)
@@ -147,7 +114,7 @@ app.get('/', function(req, res) {
 
 // TODO: CODE ERGÄNZEN START
 /*
-app.post.method('/tagging', function(req, res) {
+app.post('/tagging', function(req, res) {
     req.body('latitude', 'longitude', 'name', 'hashtag', 'submitNewEntry');
     res.render('gta', {
           GeoTagObject
