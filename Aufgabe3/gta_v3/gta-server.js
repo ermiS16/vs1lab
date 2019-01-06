@@ -30,18 +30,29 @@ app.set('view engine', 'ejs');
  */
 
 // TODO: CODE ERGÄNZEN
-app.use(express.static("/client"));
+app.use(express.static('/public'));
 
 /**
  * Konstruktor für GeoTag Objekte.
  * GeoTag Objekte sollen min. alle Felder des 'tag-form' Formulars aufnehmen.
  */
-var GeoTagObject = {
-    latitude: '0',
-    longitude: '0',
-    name: '0',
-    hashtag: '#'
-}
+function GeoTagObject(latitude, longitude, name, hashtag){
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.name = name;
+        this.hashtag = hashtag;
+
+        this.getLatitude = function () { return this.latitude;};
+        this.getLongitude = function () { return this.longitude;};
+        this.getName = function () { return this.name;};
+        this.getHashtag = function () { return this.hashtag;};
+
+        this.toString = function () { return "Latitude: "+ this.latitude +
+            ", Longitude: " + this.longitude + ", Name: " + this.name + ", Hashtag: " + this.hashtag;
+
+        }
+};
+
 // TODO: CODE ERGÄNZEN
 
 /**
@@ -54,15 +65,25 @@ var GeoTagObject = {
  */
 
 // TODO: CODE ERGÄNZEN
-var inMemory = {
 
+var inMemory = (function() {
     var geoTag_Array = [];
-    var searchGeoTagRadius = function(){}
-    var searchGeoTagSearchterm = function(){}
-    var addGeoTag = function(){}
-    var removeGeoTag = function(){}
+    var newGeoTag;
+    return {
+        searchGeoTagRadius: function () {},
+        searchGeoTagSearchterm : function () {},
+        addGeoTag : function () {
+            var latitude = document.getElementById("latitude").value;
+            var longitude = document.getElementById("longitude").value;
+            var name = document.getElementById("name").value;
+            var hashtag = document.getElementById("hashtag").value;
+            newGeoTag = new GeoTagObject(longitude, latitude, name, hashtag);
+            geoTag_Array.push(newGeoTag);
+            },
+        removeGeoTag : function (geoTag) {geoTag_Array.pop(geoTag);}
+    }
+});
 
-}
 
 /**
  * Route mit Pfad '/' für HTTP 'GET' Requests.

@@ -37,7 +37,7 @@ GEOLOCATIONAPI = {
 
 // Die echte API ist diese.
 // Falls es damit Probleme gibt, kommentieren Sie die Zeile aus.
-GEOLOCATIONAPI = navigator.geolocation;
+//GEOLOCATIONAPI = navigator.geolocation;
 
 /**
  * GeoTagApp Locator Modul
@@ -88,7 +88,7 @@ var gtaLocator = (function GtaLocator(geoLocationApi) {
     };
 
     // Hier Google Maps API Key eintragen
-    var apiKey = "YOUR_API_KEY_HERE";
+    var apiKey = "biNHmpV6y7W8g6WqSeTMQNeCgfuLAkWr";
 
     /**
      * Funktion erzeugt eine URL, die auf die Karte verweist.
@@ -104,6 +104,7 @@ var gtaLocator = (function GtaLocator(geoLocationApi) {
 
         if (apiKey === "YOUR_API_KEY_HERE") {
             console.log("No API key provided.");
+            alert("can't load Map");
             return "images/mapview.jpg";
         }
 
@@ -126,17 +127,29 @@ var gtaLocator = (function GtaLocator(geoLocationApi) {
         readme: "Dieses Objekt enthält 'öffentliche' Teile des Moduls.",
 
         updateLocation: function() {
-          tryLocate();
-          var onsuccess = function(){
-              GEOLOCATIONAPI.latitude = $(document).getElementById("latitude").value;
-              GEOLOCATIONAPI.longitude = $(document).getElementById("longitude").value;
+          tryLocate(onsuccess, onerror);
+          updateMap();
+
+          function updateMap(){
+              var tagmapURL;
+              var currentLatitude = document.getElementById("latitude").value;
+              var currentLongitude = document.getElementById("longitude").value;
+              var mapTagList = [];
+              var tagmapURL = getLocationMapSrc(currentLatitude,currentLongitude,mapTagList,15);
+              document.getElementById("result-img").setAttribute("src", tagmapURL);
+              alert(document.getElementById("result-img").getAttribute("src"));
           }
 
-          var onerror = function(){
-              alert("Error");
+
+
+          function onsuccess(position){
+              document.getElementById("latitude").value = getLatitude(position);
+              document.getElementById("longitude").value = getLongitude(position);
           }
 
-
+          function onerror(msg){
+              alert(msg);
+          }
         }
 
     }; // ... Ende öffentlicher Teil
