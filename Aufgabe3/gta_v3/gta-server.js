@@ -59,7 +59,7 @@ function GeoTagObject(latitude, longitude, name, hashtag) {
             ", Longitude: " + this.longitude + ", Name: " + this.name + ", Hashtag: " + this.hashtag;
 
     }
-};
+}
 
 /**
  * Modul für 'In-Memory'-Speicherung von GeoTags mit folgenden Komponenten:
@@ -71,22 +71,37 @@ function GeoTagObject(latitude, longitude, name, hashtag) {
  */
 
 var inMemory = (function() {
-    var geoTag_Array = [];
-    var newGeoTag;
+    /**
+     * private Members
+     * @type {Array}
+     */
+        let taglist = [];
+
+    /**
+     * public Members
+     */
     return {
-        searchGeoTagRadius: function () {},
-        searchGeoTagSearchterm : function () {},
-        addGeoTag : function () {
-            var latitude = document.getElementById("latitude").value;
-            var longitude = document.getElementById("longitude").value;
-            var name = document.getElementById("name").value;
-            var hashtag = document.getElementById("hashtag").value;
-            newGeoTag = new GeoTagObject(longitude, latitude, name, hashtag);
-            geoTag_Array.push(newGeoTag);
-            },
-        removeGeoTag : function (geoTag) {geoTag_Array.pop(geoTag);}
+        addGeoTag: function (geoTagObject) {
+            let geoTagExist = false;
+            for (var i = 0; i < taglist.length; i++) {
+                if (taglist[i].name === geoTagObject.name) {
+                    geoTagExist = true;
+                }
+            }
+            if (!geoTagObject) {
+                taglist.push(geoTagObject);
+            }
+        },
+
+        removeGeoTag: function (geoTagObject) {
+            for (var i = 0; i < taglist.length; i++) {
+                if (taglist[i].name === geoTagObject.name) {
+                    taglist.splice(i);
+                }
+            }
+        }
     }
-});
+})();
 
 /**
  * Route mit Pfad '/' für HTTP 'GET' Requests.
@@ -117,14 +132,11 @@ app.get('/', function(req, res) {
  */
 
 app.post('/tagging', function(req, res) {
-/*
-    req.body.latitude;
-    req.body.longitude;
-    req.body.hashtag;
-    req.body.name;
-*/
-    var newGeoTagObject = new GeoTagObject(req.body.latitude, req.body.longitude, req.body.hashtag, req.body.name)
-    res.render('gta', {newGeoTagObject})
+
+    let newGeoTagObject = new GeoTagObject(req.body.latitude, req.body.longitude, req.body.name, req.body.hashtag);
+    inMemory.addGeoTag(newGeoTagObject);
+    res.render('gta', {
+        taglist: [newGeoTagObject]})
 
 });
 
@@ -139,8 +151,16 @@ app.post('/tagging', function(req, res) {
  * Die Objekte liegen in einem Standard Radius um die Koordinate (lat, lon).
  * Falls 'term' vorhanden ist, wird nach Suchwort gefiltert.
  */
+/*
+app.post('/discovery', function(req, res) {
 
-// TODO: CODE ERGÄNZEN
+    let newGeoTagObject = new GeoTagObject(req.body.latitude, req.body.longitude, req.body.hashtag, req.body.name);
+
+    res.render('gta', {
+        taglist: [newGeoTagObject]})
+
+});
+*/
 
 /**
  * Setze Port und speichere in Express.
