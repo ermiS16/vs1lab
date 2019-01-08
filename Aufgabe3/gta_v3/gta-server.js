@@ -90,6 +90,7 @@ var inMemory = (function() {
             }
             if (!geoTagExist) {
                 taglist.push(geoTagObject);
+                console.log(taglist[0]);
             }
         },
 
@@ -132,12 +133,13 @@ app.get('/', function(req, res) {
  */
 
 app.post('/tagging', function(req, res) {
-
+    console.log(req.body.latitude, req.body.longitude, req.body.name, req.body.hashtag);
     let newGeoTagObject = new GeoTagObject(req.body.latitude, req.body.longitude, req.body.name, req.body.hashtag);
+
     inMemory.addGeoTag(newGeoTagObject);
     res.render('gta', {
-        taglist:[]})
 
+        taglist:[newGeoTagObject]})
 });
 
 /**
