@@ -88,7 +88,7 @@ var inMemory = (function() {
                     geoTagExist = true;
                 }
             }
-            if (!geoTagObject) {
+            if (!geoTagExist) {
                 taglist.push(geoTagObject);
             }
         },
@@ -136,7 +136,7 @@ app.post('/tagging', function(req, res) {
     let newGeoTagObject = new GeoTagObject(req.body.latitude, req.body.longitude, req.body.name, req.body.hashtag);
     inMemory.addGeoTag(newGeoTagObject);
     res.render('gta', {
-        taglist: [newGeoTagObject]})
+        taglist:[]})
 
 });
 
@@ -151,16 +151,16 @@ app.post('/tagging', function(req, res) {
  * Die Objekte liegen in einem Standard Radius um die Koordinate (lat, lon).
  * Falls 'term' vorhanden ist, wird nach Suchwort gefiltert.
  */
-/*
+
 app.post('/discovery', function(req, res) {
 
     let newGeoTagObject = new GeoTagObject(req.body.latitude, req.body.longitude, req.body.hashtag, req.body.name);
 
     res.render('gta', {
-        taglist: [newGeoTagObject]})
+        taglist: []})
 
 });
-*/
+
 
 /**
  * Setze Port und speichere in Express.
