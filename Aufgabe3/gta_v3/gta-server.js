@@ -131,10 +131,10 @@ var inMemory = (function() {
 
             var latit = 71.44;
             var longit = 113.13;
-            var radius;
+            var radius = 0;
             var latKm= 0.07;
             var longKm = 0.31;
-            var standartRadius;
+            var standartRadius = 0;
                 console.log(latKm, longKm);
                 console.log(lat, long);
             for(var i = 0; i<taglist.length;i++){
@@ -143,14 +143,9 @@ var inMemory = (function() {
                 radius = Math.sqrt((dx*dx)+(dy*dy));
                 standartRadius = Math.sqrt((latKm*latKm)+(longKm*longKm));
                 console.log(radius, standartRadius, dx, dy);
-                //P1 = lat+r, long+r
-                if(lat+radius <= lat+standartRadius && long+radius <= long+standartRadius){ filterTaglist.push = taglist[i];}
-                //P2 = lat+r, long-r
-                if(lat+radius <= lat+standartRadius&& long-radius <= long-standartRadius) { filterTaglist.push = taglist[i];}
-                //P3 = lat-r, long+r
-                if(lat-radius <= lat-standartRadius&& long+radius <= long+standartRadius) { filterTaglist.push = taglist[i];}
-                //P4 = lat-r, long-r
-                if(lat-radius <= lat-standartRadius && long-radius <= long-standartRadius) { filterTaglist.push = taglist[i];}
+
+                if(radius < standartRadius) filterTaglist[i] = taglist[i];
+                console.log(filterTaglist);
             }
 
         },
@@ -215,15 +210,16 @@ app.post('/tagging', function(req, res){
 app.post('/discovery', function(req, res) {
     console.log(req.body);
     console.log(req.body.searchField);
-
+    if(req.body.searchField == '') console.log("Empty");
     if(req.body.searchField !== null){
         inMemory.searchName(req.body.searchField);
-    }else {
+    }
+    if(req.body.searchField == '') {
         console.log("else");
-        inMemory.searchRadius(req.body.latitude, req.body.longitude);
+        inMemory.searchRadius(req.body.hiddenLatitude, req.body.hiddenLongitude);
     }
 
-    inMemory.searchRadius(lat, long);
+    //inMemory.searchRadius(req.body.hiddenLatitude, req.body.hiddenLongitude);
     res.render('gta', {
         taglist: inMemory.getFilterTaglist()})
 
