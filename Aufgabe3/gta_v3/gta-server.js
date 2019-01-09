@@ -4,6 +4,7 @@
  * Verzeichnisbaum implementieren. Dazu müssen die TODOs erledigt werden.
  */
 
+
 /**
  * Definiere Modul Abhängigkeiten und erzeuge Express app.
  */
@@ -13,13 +14,13 @@ var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var express = require('express');
-
 var app;
 app = express();
 app.use(logger('dev'));
-app.use(bodyParser.urlencoded({
-    extended: false
-}));
+app.use(bodyParser.urlencoded({extended: false, type: 'application/x-www-form-urlencoded'}));
+app.use(bodyParser.text({ type: 'text/html' }));
+app.use(bodyParser.raw({ type: 'application/vnd.custom-type' }));
+app.use(bodyParser.json({ type: 'application/*+json' }));
 // Setze ejs als View Engine
 app.set('view engine', 'ejs');
 
@@ -75,14 +76,14 @@ var inMemory = (function() {
      * private Members
      * @type {Array}
      */
-        let taglist = [];
+        var taglist = [];
 
     /**
      * public Members
      */
     return {
         addGeoTag: function (geoTagObject) {
-            let geoTagExist = false;
+            var geoTagExist = false;
             for (var i = 0; i < taglist.length; i++) {
                 if (taglist[i].name === geoTagObject.name) {
                     geoTagExist = true;
@@ -132,14 +133,18 @@ app.get('/', function(req, res) {
  * Die Objekte liegen in einem Standard Radius um die Koordinate (lat, lon).
  */
 
-app.post('/tagging', function(req, res) {
-    console.log(req.body.latitude, req.body.longitude, req.body.name, req.body.hashtag);
-    let newGeoTagObject = new GeoTagObject(req.body.latitude, req.body.longitude, req.body.name, req.body.hashtag);
+app.post('/tagging', function(req, res){
+    console.log(req.body);
+    if(!req.body) return res.sendStatus(400);
+//    console.log(req.body.raw);
+    //console.log(req.body.latitude, req.body.longitude, req.body.name, req.body.hashtag);
+    var newGeoTagObject = new GeoTagObject(req.body.latitude, req.body.longitude, req.body.name, req.body.hashtag);
 
     inMemory.addGeoTag(newGeoTagObject);
     res.render('gta', {
 
         taglist:[newGeoTagObject]})
+
 });
 
 /**
@@ -156,7 +161,7 @@ app.post('/tagging', function(req, res) {
 
 app.post('/discovery', function(req, res) {
 
-    let newGeoTagObject = new GeoTagObject(req.body.latitude, req.body.longitude, req.body.hashtag, req.body.name);
+    var newGeoTagObject = new GeoTagObject(req.body.latitude, req.body.longitude, req.body.hashtag, req.body.name);
 
     res.render('gta', {
         taglist: []})
