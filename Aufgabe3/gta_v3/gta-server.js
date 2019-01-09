@@ -17,10 +17,8 @@ var express = require('express');
 var app;
 app = express();
 app.use(logger('dev'));
-app.use(bodyParser.urlencoded({extended: false, type: 'application/x-www-form-urlencoded'}));
-app.use(bodyParser.text({ type: 'text/html' }));
-app.use(bodyParser.raw({ type: 'application/vnd.custom-type' }));
-app.use(bodyParser.json({ type: 'application/*+json' }));
+//, type: 'application/x-www-form-urlencoded'
+app.use(bodyParser.urlencoded({extended: false}));
 // Setze ejs als View Engine
 app.set('view engine', 'ejs');
 
@@ -77,11 +75,19 @@ var inMemory = (function() {
      * @type {Array}
      */
         var taglist = [];
-
+        var filterTaglist = [];
     /**
      * public Members
      */
     return {
+        getTaglist: function(){
+            return taglist;
+        },
+
+        getFilterTaglist: function(){
+            return filterTaglist;
+        },
+
         addGeoTag: function (geoTagObject) {
             var geoTagExist = false;
             for (var i = 0; i < taglist.length; i++) {
@@ -101,6 +107,55 @@ var inMemory = (function() {
                     taglist.splice(i);
                 }
             }
+        },
+
+        searchName : function(argument){
+            filterTaglist = [];
+            for (var i = 0; i < taglist.length; i++){
+                if(taglist[i].getName() === argument || taglist[i].getHashtag() === argument) {
+                    filterTaglist[i] = taglist[i];
+                }
+            }
+        },
+            /** (Breitengrad:
+             * 1 Grad: 71,44kn
+             * 1 Bogenminute: 1.190 m
+             * 1 Bogensekunde: 19,8 m
+             * Laengengrad:
+             * 1 Grad: 113,13km
+             * 1 Bogenminute: 1.850 m
+             * 1 Bogensekunde: 30.9 m
+             */
+        searchRadius : function(lat, long){
+            filterTaglist = [];
+
+            var latit = 71.44;
+            var longit = 113.13;
+            var radius;
+            var latKm= 0.07;
+            var longKm = 0.31;
+            var standartRadius;
+                console.log(latKm, longKm);
+                console.log(lat, long);
+            for(var i = 0; i<taglist.length;i++){
+                var dx = latit * (lat - taglist[i].latitude);
+                var dy = longit * (long- taglist[i].longitude);
+                radius = Math.sqrt((dx*dx)+(dy*dy));
+                standartRadius = Math.sqrt((latKm*latKm)+(longKm*longKm));
+                console.log(radius, standartRadius, dx, dy);
+                //P1 = lat+r, long+r
+                if(lat+radius <= lat+standartRadius && long+radius <= long+standartRadius){ filterTaglist.push = taglist[i];}
+                //P2 = lat+r, long-r
+                if(lat+radius <= lat+standartRadius&& long-radius <= long-standartRadius) { filterTaglist.push = taglist[i];}
+                //P3 = lat-r, long+r
+                if(lat-radius <= lat-standartRadius&& long+radius <= long+standartRadius) { filterTaglist.push = taglist[i];}
+                //P4 = lat-r, long-r
+                if(lat-radius <= lat-standartRadius && long-radius <= long-standartRadius) { filterTaglist.push = taglist[i];}
+            }
+
+        },
+        getRadius : function(lat, lon){
+
         }
     }
 })();
@@ -135,15 +190,13 @@ app.get('/', function(req, res) {
 
 app.post('/tagging', function(req, res){
     console.log(req.body);
-    if(!req.body) return res.sendStatus(400);
-//    console.log(req.body.raw);
-    //console.log(req.body.latitude, req.body.longitude, req.body.name, req.body.hashtag);
+
     var newGeoTagObject = new GeoTagObject(req.body.latitude, req.body.longitude, req.body.name, req.body.hashtag);
 
     inMemory.addGeoTag(newGeoTagObject);
     res.render('gta', {
 
-        taglist:[newGeoTagObject]})
+        taglist: inMemory.getTaglist()})
 
 });
 
@@ -160,11 +213,19 @@ app.post('/tagging', function(req, res){
  */
 
 app.post('/discovery', function(req, res) {
+    console.log(req.body);
+    console.log(req.body.searchField);
 
-    var newGeoTagObject = new GeoTagObject(req.body.latitude, req.body.longitude, req.body.hashtag, req.body.name);
+    if(req.body.searchField !== null){
+        inMemory.searchName(req.body.searchField);
+    }else {
+        console.log("else");
+        inMemory.searchRadius(req.body.latitude, req.body.longitude);
+    }
 
+    inMemory.searchRadius(lat, long);
     res.render('gta', {
-        taglist: []})
+        taglist: inMemory.getFilterTaglist()})
 
 });
 

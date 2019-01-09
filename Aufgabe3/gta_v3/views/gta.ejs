@@ -30,13 +30,13 @@
 				<fieldset>
 					<legend>Enter new GeoTag</legend>
 					<legend>Latitude</legend>
-					<input type="text" label="Latitude" id="latitude" placeholder="Bsp.: 49.004719" maxlength="20" required/>
+					<input type="text" label="Latitude" name="latitude" id="latitude" placeholder="Bsp.: 49.004719" maxlength="20" required/>
 					<legend>Longitude</legend>
-					<input type="text" label="Longitude" id="longitude" placeholder="Bsp.: 8.427174" maxlength="20" required/>
+					<input type="text" label="Longitude" name="longitude" id="longitude" placeholder="Bsp.: 8.427174" maxlength="20" required/>
 					<legend>Name</legend>
-					<input type="text" label="Name" id="name" placeholder="Bsp.: Max Mustermann"  maxlength="10" required/>
+					<input type="text" label="Name" name="name" id="name" placeholder="Bsp.: Max Mustermann"  maxlength="10" required/>
 					<legend>Hashtag</legend>
-					<input type="text" label="Hashtag" id="hashtag" placeholder="Bsp.: #SchlossGottesaue" maxlength="100"/>
+					<input type="text" label="Hashtag" name="hashtag" id="hashtag" placeholder="Bsp.: #SchlossGottesaue" maxlength="100"/>
 					<input type="submit" value="submit" id="submitNewEntry"/>
 				</fieldset>
 			</div>
@@ -52,9 +52,9 @@
 		<form id="filter-form" action="/discovery" method="post">
 			<fieldset>
 				<legend>Filter by Searchterm</legend>
-				<input type="text" label="search" id="searchfield" placeholder="search term" size=30/>
-				<button id="ApplySearch">Apply</button>
-				<button id="RemoveSearch">Remove</button>
+				<input type="text" name="searchField" label="search" id="searchfield" placeholder="search term" size=30/>
+				<input name="searchButton" type="submit" value="apply" id="ApplySearch"/>
+				<input name="removeButton" type="submit" value="remove" id="RemoveSearch"/>
 			</fieldset>
 		</form>
 
