@@ -39,7 +39,7 @@ function GeoTagObject(latitude, longitude, name, hashtag) {
     this.longitude = longitude;
     this.name = name;
     this.hashtag = hashtag;
-
+/*
     this.getLatitude = function () {
         return this.latitude;
     };
@@ -58,6 +58,7 @@ function GeoTagObject(latitude, longitude, name, hashtag) {
             ", Longitude: " + this.longitude + ", Name: " + this.name + ", Hashtag: " + this.hashtag;
 
     }
+    */
 }
 
 /**
@@ -76,6 +77,7 @@ var inMemory = (function() {
      */
         var taglist = [];
         var filterTaglist = [];
+        const ERDRADIUS = 6.371;
     /**
      * public Members
      */
@@ -112,43 +114,54 @@ var inMemory = (function() {
         searchName : function(argument){
             filterTaglist = [];
             for (var i = 0; i < taglist.length; i++){
-                if(taglist[i].getName() === argument || taglist[i].getHashtag() === argument) {
+                if(taglist[i].name === argument || taglist[i].hashtag === argument) {
                     filterTaglist[i] = taglist[i];
                 }
             }
         },
-            /** (Breitengrad:
-             * 1 Grad: 71,44kn
-             * 1 Bogenminute: 1.190 m
-             * 1 Bogensekunde: 19,8 m
-             * Laengengrad:
-             * 1 Grad: 113,13km
-             * 1 Bogenminute: 1.850 m
-             * 1 Bogensekunde: 30.9 m
-             */
-        searchRadius : function(lat, long){
-            filterTaglist = [];
 
-            var latit = 71.44;
-            var longit = 113.13;
-            var radius = 0;
-            var latKm= 0.07;
-            var longKm = 0.31;
-            var standartRadius = 0;
-                console.log(latKm, longKm);
-                console.log(lat, long);
-            for(var i = 0; i<taglist.length;i++){
-                var dx = latit * (lat - taglist[i].latitude);
-                var dy = longit * (long- taglist[i].longitude);
-                radius = Math.sqrt((dx*dx)+(dy*dy));
-                standartRadius = Math.sqrt((latKm*latKm)+(longKm*longKm));
-                console.log(radius, standartRadius, dx, dy);
+        searchRadius : function(lat, long, radius){
+                var returnArray = [];
+                var lambda = [];
+                var phi = [];
+                var x = [];
+                var y = [];
+                var z = [];
+                var distance;
+                lambda[0] = lat * Math.PI / 180;
+                phi[0] = long * Math.PI / 180;
+                x[0] = Math.round(ERDRADIUS * Math.cos(phi[0]) * Math.cos(lambda[0]));
+                y[0] = Math.round(ERDRADIUS * Math.cos(phi[0]) * Math.sin(lambda[0]));
+                z[0] = Math.round(ERDRADIUS * Math.sin(phi[0]));
+                x[0] /= 1000;
+                y[0] /= 1000;
+                z[0] /= 1000;
 
-                if(radius < standartRadius) filterTaglist[i] = taglist[i];
-                console.log(filterTaglist);
-            }
+                for (var index in taglist) {
+                    lambda[1] = lat * Math.PI / 180;
+                    phi[1] = long * Math.PI / 180;
+                    x[1] = Math.round(ERDRADIUS * Math.cos(phi[1]) * Math.cos(lambda[1]));
+                    y[1] = Math.round(ERDRADIUS * Math.cos(phi[1]) * Math.sin(lambda[1]));
+                    z[1] = Math.round(ERDRADIUS * Math.sin(phi[1]));
+                    x[1] /= 1000;
+                    y[1] /= 1000;
+                    z[1] /= 1000;
+                    distance = (2 * ERDRADIUS / 1000) * Math.asin(Math.sqrt(Math.pow((x[0] - x[1]), 2) + Math.pow((y[0] - y[1]), 2)
+                        + Math.pow((z[0] - z[1]), 2)) / (2 * ERDRADIUS / 1000)) * 1000;
 
-        },
+                    console.log(distance + " " + radius);
+                    console.log("x: "+x[0]+" y: "+y[0] +" z: "+z[0])
+                    console.log("x: "+x[1]+" y: "+y[1] +" z: "+z[1])
+
+                    if (distance<=radius*1000){
+                        returnArray.push(taglist[index]);
+                    }
+                }
+
+                return returnArray;
+
+
+            },
         getRadius : function(lat, lon){
 
         }
@@ -185,8 +198,10 @@ app.get('/', function(req, res) {
 
 app.post('/tagging', function(req, res){
     console.log(req.body);
-
     var newGeoTagObject = new GeoTagObject(req.body.latitude, req.body.longitude, req.body.name, req.body.hashtag);
+    var taglist_json = JSON.stringify(inMemory.taglist);
+    console.log(taglist_json);
+    //$("#result-img").setAttribute("data", taglist_json);
 
     inMemory.addGeoTag(newGeoTagObject);
     res.render('gta', {
@@ -214,9 +229,10 @@ app.post('/discovery', function(req, res) {
     if(req.body.searchField !== null){
         inMemory.searchName(req.body.searchField);
     }
+    const radius = 0.31;
     if(req.body.searchField == '') {
         console.log("else");
-        inMemory.searchRadius(req.body.hiddenLatitude, req.body.hiddenLongitude);
+        inMemory.searchRadius(req.body.hiddenLatitude, req.body.hiddenLongitude, radius);
     }
 
     //inMemory.searchRadius(req.body.hiddenLatitude, req.body.hiddenLongitude);
