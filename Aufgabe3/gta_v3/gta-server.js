@@ -8,6 +8,13 @@
 /**
  * Definiere Modul Abhängigkeiten und erzeuge Express app.
  */
+var jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+const { window } = new JSDOM();
+const { document } = (new JSDOM('')).window;
+global.document = document;
+
+var $ = jQuery = require('jquery')(window);
 
 var http = require('http');
 var path = require('path');
@@ -39,26 +46,7 @@ function GeoTagObject(latitude, longitude, name, hashtag) {
     this.longitude = longitude;
     this.name = name;
     this.hashtag = hashtag;
-/*
-    this.getLatitude = function () {
-        return this.latitude;
-    };
-    this.getLongitude = function () {
-        return this.longitude;
-    };
-    this.getName = function () {
-        return this.name;
-    };
-    this.getHashtag = function () {
-        return this.hashtag;
-    };
 
-    this.toString = function () {
-        return "Latitude: " + this.latitude +
-            ", Longitude: " + this.longitude + ", Name: " + this.name + ", Hashtag: " + this.hashtag;
-
-    }
-    */
 }
 
 /**
@@ -199,13 +187,17 @@ app.get('/', function(req, res) {
 app.post('/tagging', function(req, res){
     console.log(req.body);
     var newGeoTagObject = new GeoTagObject(req.body.latitude, req.body.longitude, req.body.name, req.body.hashtag);
+
+    var latitude = req.body.latitude;
+    var longitude = req.body.longitude;
     var taglist_json = JSON.stringify(inMemory.taglist);
     console.log(taglist_json);
-    //$("#result-img").setAttribute("data", taglist_json);
+    $("#result-img").data("data-json", taglist_json);
 
     inMemory.addGeoTag(newGeoTagObject);
+    $("#latitude").attr("value", latitude);
+    $("#longitude").attr("value", longitude);
     res.render('gta', {
-
         taglist: inMemory.getTaglist()})
 
 });
