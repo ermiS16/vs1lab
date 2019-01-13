@@ -47,6 +47,22 @@ function GeoTagObject(latitude, longitude, name, hashtag) {
     this.name = name;
     this.hashtag = hashtag;
 
+    var getLatitude = function(){
+        return this.latitude;
+    }
+    var getLongitude = function(){
+        return this.longitude;
+    }
+
+    var getName = function(){
+        return this.name;
+    }
+
+    var getHashtag = function(){
+        return this.hashtag;
+    }
+
+
 }
 
 /**
@@ -187,19 +203,33 @@ app.get('/', function(req, res) {
 app.post('/tagging', function(req, res){
     console.log(req.body);
     var newGeoTagObject = new GeoTagObject(req.body.latitude, req.body.longitude, req.body.name, req.body.hashtag);
-
+    inMemory.addGeoTag(newGeoTagObject);
+    var geoTags = [];
+    for(var i=0; i< inMemory.getTaglist().length; i++){
+        var geoTag = {
+            latitude : inMemory.getTaglist()[i].latitude,
+            longitude: inMemory.getTaglist()[i].longitude,
+            name: inMemory.getTaglist()[i].name,
+            hashtag: inMemory.getTaglist()[i].hashtag
+        };
+        geoTags[i] = geoTag;
+    }
+    console.log(geoTags);
+    /*
     var latitude = req.body.latitude;
     var longitude = req.body.longitude;
-    var taglist_json = JSON.stringify(inMemory.taglist);
-    console.log(taglist_json);
-    $("#result-img").data("data-json", taglist_json);
-
-    inMemory.addGeoTag(newGeoTagObject);
-    $("#latitude").attr("value", latitude);
+    console.log(latitude, longitude);
+    $("#latitude").attr("value", "hallo");
     $("#longitude").attr("value", longitude);
+    console.log($("#latitude").attr("value"));
+    */
+    var taglist_json = JSON.stringify(geoTags);
+    console.log(taglist_json);
+    console.log(JSON.parse(taglist_json));
+    $("#result-img").data("tags", taglist_json);
+    console.log($("#result-img").data("tags"))
     res.render('gta', {
         taglist: inMemory.getTaglist()})
-
 });
 
 /**
@@ -215,6 +245,7 @@ app.post('/tagging', function(req, res){
  */
 
 app.post('/discovery', function(req, res) {
+
     console.log(req.body);
     console.log(req.body.searchField);
     if(req.body.searchField == '') console.log("Empty");
